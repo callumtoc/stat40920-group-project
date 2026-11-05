@@ -11,14 +11,6 @@ from pathlib import Path
 from load_data import df, SECTORS
 
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
-OUTPUT_DIR.mkdir(exist_ok=True)
-
-# ---------------------------------------------------------------------------
-# Save cleaned returns
-# ---------------------------------------------------------------------------
-returns_path = OUTPUT_DIR / "returns.csv"
-df.to_csv(returns_path)
-print(f"Returns written to {returns_path}")
 
 # ---------------------------------------------------------------------------
 # Summary statistics (returns are in %)

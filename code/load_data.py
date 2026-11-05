@@ -31,6 +31,12 @@ df_all.columns = df_all.columns.str.strip()
 
 df = df_all[SECTORS].copy()
 
+OUTPUT_DIR = ROOT / "output"
+OUTPUT_DIR.mkdir(exist_ok=True)
+
+returns_path = OUTPUT_DIR / "returns.csv"
+df.to_csv(returns_path)
+
 if __name__ == "__main__":
     print(f"Data loaded: {len(df)} monthly observations ({df.index[0].strftime('%b %Y')} – {df.index[-1].strftime('%b %Y')})")
-    print(df.head())
+    print(f"Returns written to {returns_path}")
