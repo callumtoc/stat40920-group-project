@@ -1,15 +1,3 @@
-"""
-load_data.py
-
-Parses the full Kenneth French 49 Industry Portfolios CSV into a dictionary
-of DataFrames, one per section.
-
-Exposes:
-    sections -- dict mapping section name (str) to DataFrame
-    SECTORS  -- list of our ten sector column names
-    monthly_vw_returns -- monthly value-weighted returns for our ten sectors
-"""
-
 import pandas as pd
 from pathlib import Path
 
