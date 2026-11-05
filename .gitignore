@@ -8,5 +8,8 @@ output/
 # Claude Code
 .claude/
 
+# Editor
+.vscode/
+
 # macOS
 .DS_Store
