@@ -2,7 +2,7 @@
 summary_stats.py
 
 Imports the cleaned returns DataFrame from load_data.py and writes:
-    output/returns.csv       -- cleaned monthly returns for our ten sectors
+    output/monthly_vw_returns.csv -- cleaned monthly returns for our ten sectors
     output/summary_stats.csv -- summary statistics table
 """
 

@@ -60,11 +60,11 @@ for i, start in enumerate(header_indices):
 monthly_vw_returns = sections["Average Value Weighted Returns -- Monthly"][SECTORS].copy()
 
 # Write cleaned returns to output
-monthly_vw_returns.to_csv(OUTPUT_DIR / "returns.csv")
+monthly_vw_returns.to_csv(OUTPUT_DIR / "monthly_vw_returns.csv")
 
 if __name__ == "__main__":
     print("Sections parsed:")
     for name, section_df in sections.items():
         print(f"  '{name}': {section_df.shape}")
     print(f"\nmonthly_vw_returns (our 10 sectors): {monthly_vw_returns.shape}")
-    print(f"Returns written to {OUTPUT_DIR / 'returns.csv'}")
+    print(f"Returns written to {OUTPUT_DIR / 'monthly_vw_returns.csv'}")
