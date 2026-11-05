@@ -8,19 +8,19 @@ Imports the cleaned returns DataFrame from load_data.py and writes:
 
 import numpy as np
 from pathlib import Path
-from load_data import df, SECTORS
+from load_data import monthly_vw_returns, SECTORS
 
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 
 # ---------------------------------------------------------------------------
 # Summary statistics (returns are in %)
 # ---------------------------------------------------------------------------
-stats = df.agg(["mean", "std", "min", "max"]).T
+stats = monthly_vw_returns.agg(["mean", "std", "min", "max"]).T
 stats.columns = ["Mean (%/month)", "Std dev (%/month)", "Min (%)", "Max (%)"]
-stats["Annualised mean (%)"] = df.mean() * 12
-stats["Annualised vol (%)"]  = df.std() * np.sqrt(12)
+stats["Annualised mean (%)"] = monthly_vw_returns.mean() * 12
+stats["Annualised vol (%)"]  = monthly_vw_returns.std() * np.sqrt(12)
 stats["Sharpe (ann., rf=0)"] = stats["Annualised mean (%)"] / stats["Annualised vol (%)"]
-stats["Observations"]        = df.count().astype(int)
+stats["Observations"]        = monthly_vw_returns.count().astype(int)
 stats = stats.round(4)
 
 stats_path = OUTPUT_DIR / "summary_stats.csv"

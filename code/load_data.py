@@ -7,7 +7,7 @@ of DataFrames, one per section.
 Exposes:
     sections -- dict mapping section name (str) to DataFrame
     SECTORS  -- list of our ten sector column names
-    df       -- shorthand for the monthly value-weighted returns for our sectors
+    monthly_vw_returns -- monthly value-weighted returns for our ten sectors
 """
 
 import pandas as pd
@@ -57,14 +57,14 @@ for i, start in enumerate(header_indices):
 # ---------------------------------------------------------------------------
 # Shorthand for the section we'll use most
 # ---------------------------------------------------------------------------
-df = sections["Average Value Weighted Returns -- Monthly"][SECTORS].copy()
+monthly_vw_returns = sections["Average Value Weighted Returns -- Monthly"][SECTORS].copy()
 
 # Write cleaned returns to output
-df.to_csv(OUTPUT_DIR / "returns.csv")
+monthly_vw_returns.to_csv(OUTPUT_DIR / "returns.csv")
 
 if __name__ == "__main__":
     print("Sections parsed:")
     for name, section_df in sections.items():
         print(f"  '{name}': {section_df.shape}")
-    print(f"\ndf (monthly VW returns, our 10 sectors): {df.shape}")
+    print(f"\nmonthly_vw_returns (our 10 sectors): {monthly_vw_returns.shape}")
     print(f"Returns written to {OUTPUT_DIR / 'returns.csv'}")
