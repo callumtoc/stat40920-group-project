@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Generated outputs
+output/
+
+# Claude Code
+.claude/
+
+# macOS
+.DS_Store
