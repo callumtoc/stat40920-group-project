@@ -3,6 +3,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_FILE = ROOT / "data" / "raw" / "49_Industry_Portfolios.csv"
+CLEANED_DIR = ROOT / "data" / "cleaned"
+CLEANED_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR = ROOT / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
