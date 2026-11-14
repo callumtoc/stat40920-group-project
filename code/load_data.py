@@ -45,8 +45,3 @@ for i, start in enumerate(header_indices):
 
     sections[name] = section_df
 
-if __name__ == "__main__":
-    print("Sections parsed:")
-    for name, section_df in sections.items():
-        print(f"  '{name}': {section_df.shape}")
-    print(f"\nmonthly_vw_returns (our 10 sectors): {monthly_vw_returns.shape}")
