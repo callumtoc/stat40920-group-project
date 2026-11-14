@@ -4,6 +4,7 @@ __pycache__/
 
 # Generated outputs
 output/
+data/cleaned/
 
 # Claude Code
 .claude/

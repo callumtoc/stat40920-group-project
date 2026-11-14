@@ -1,4 +1,4 @@
-from load_data import sections, SECTORS, OUTPUT_DIR
+from load_data import sections, SECTORS, CLEANED_DIR
 
 SECTION_TO_FILE = {
     "Average Value Weighted Returns -- Monthly":  "monthly_vw_returns.csv",
@@ -15,5 +15,5 @@ for section_name, filename in SECTION_TO_FILE.items():
     section_df = sections[section_name]
     available = [s for s in SECTORS if s in section_df.columns]
     out = section_df[available].copy()
-    out.to_csv(OUTPUT_DIR / filename)
+    out.to_csv(CLEANED_DIR / filename)
     print(f"Written {filename}: {out.shape}")
