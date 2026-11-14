@@ -37,22 +37,11 @@ for i, start in enumerate(header_indices):
         rows.append([parts[0].strip()] + values)
 
     section_df = pd.DataFrame(rows, columns=["date"] + cols)
-    section_df["date"] = pd.to_datetime(section_df["date"], format="%Y%m", errors="coerce")
+    # Annual sections use YYYY format; monthly sections use YYYYMM
+    annual = "Annual" in name or "BE/ME" in name
+    fmt = "%Y" if annual else "%Y%m"
+    section_df["date"] = pd.to_datetime(section_df["date"], format=fmt, errors="coerce")
     section_df = section_df.dropna(subset=["date"]).set_index("date")
 
     sections[name] = section_df
 
-# ---------------------------------------------------------------------------
-# Shorthand for the section we'll use most
-# ---------------------------------------------------------------------------
-monthly_vw_returns = sections["Average Value Weighted Returns -- Monthly"][SECTORS].copy()
-
-# Write cleaned returns to output
-monthly_vw_returns.to_csv(OUTPUT_DIR / "monthly_vw_returns.csv")
-
-if __name__ == "__main__":
-    print("Sections parsed:")
-    for name, section_df in sections.items():
-        print(f"  '{name}': {section_df.shape}")
-    print(f"\nmonthly_vw_returns (our 10 sectors): {monthly_vw_returns.shape}")
-    print(f"Returns written to {OUTPUT_DIR / 'monthly_vw_returns.csv'}")
