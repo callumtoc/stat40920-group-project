@@ -38,7 +38,7 @@ for i, start in enumerate(header_indices):
 
     section_df = pd.DataFrame(rows, columns=["date"] + cols)
     # Annual sections use YYYY format; monthly sections use YYYYMM
-    annual = "Annual" in name or "BE/ME" in name
+    annual = "Annual" in name or "BE/ME" in name or "Sum of BE" in name
     fmt = "%Y" if annual else "%Y%m"
     section_df["date"] = pd.to_datetime(section_df["date"], format=fmt, errors="coerce")
     section_df = section_df.dropna(subset=["date"]).set_index("date")
