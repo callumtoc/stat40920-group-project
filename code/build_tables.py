@@ -7,6 +7,7 @@ SECTION_TO_FILE = {
     "Average Equal Weighted Returns -- Annual":   "annual_ew_returns.csv",
     "Number of Firms in Portfolios":              "number_of_firms.csv",
     "Average Firm Size":                          "average_firm_size.csv",
+    "Sum of BE / Sum of ME":                      "sum_be_me.csv",
     "Value-Weighted Average of BE/ME":            "average_be_me.csv",
 }
 
