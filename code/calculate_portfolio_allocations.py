@@ -9,6 +9,8 @@ mean_returns = monthly_vw_returns.mean().values
 cov_matrix = monthly_vw_returns.cov().values
 n = len(SECTORS)
 
+RISK_FREE_RATE = 0.0 # we need to solve this - not sure where to get data from
+
 def portfolio_stats(weights):
     ret = np.dot(weights, mean_returns) * 12
     vol = np.sqrt(weights @ cov_matrix @ weights) * np.sqrt(12)
@@ -19,7 +21,7 @@ def min_volatility(weights):
 
 def neg_sharpe(weights):
     ret, vol = portfolio_stats(weights)
-    return -ret / vol
+    return -(ret - RISK_FREE_RATE) / vol  # minimise negative Sharpe = maximise Sharpe
 
 constraints = {"type": "eq", "fun": lambda w: np.sum(w) - 1}
 bounds = tuple((0, 1) for _ in range(n))
@@ -41,7 +43,8 @@ portfolios["medium_risk"] = minimize(
 rows = []
 for name, result in portfolios.items():
     ret, vol = portfolio_stats(result.x)
-    row = {"portfolio": name, "annualised_return": round(ret, 4), "annualised_vol": round(vol, 4), "sharpe": round(ret / vol, 4)}
+    sharpe = (ret - RISK_FREE_RATE) / vol
+    row = {"portfolio": name, "annualised_return": round(ret, 4), "annualised_vol": round(vol, 4), "sharpe": round(sharpe, 4)}
     row.update({s: round(w, 4) for s, w in zip(SECTORS, result.x)})
     rows.append(row)
 
