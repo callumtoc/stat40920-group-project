@@ -24,19 +24,18 @@ def neg_sharpe(weights):
     return -(ret - RISK_FREE_RATE) / vol  # minimise negative Sharpe = maximise Sharpe
 
 constraints = {"type": "eq", "fun": lambda w: np.sum(w) - 1}
-bounds = tuple((0, 1) for _ in range(n))
 w0 = np.ones(n) / n
 
 portfolios = {
-    "low_risk":    minimize(min_volatility, w0, method="SLSQP", bounds=bounds, constraints=constraints),
-    "high_return": minimize(neg_sharpe,     w0, method="SLSQP", bounds=bounds, constraints=constraints),
+    "low_risk":    minimize(min_volatility, w0, method="SLSQP", constraints=constraints),
+    "high_return": minimize(neg_sharpe,     w0, method="SLSQP", constraints=constraints),
 }
 
 low_ret  = portfolio_stats(portfolios["low_risk"].x)[0]
 high_ret = portfolio_stats(portfolios["high_return"].x)[0]
 mid_target = (low_ret + high_ret) / 2
 portfolios["medium_risk"] = minimize(
-    min_volatility, w0, method="SLSQP", bounds=bounds,
+    min_volatility, w0, method="SLSQP",
     constraints=[constraints, {"type": "eq", "fun": lambda w: portfolio_stats(w)[0] - mid_target}]
 )
 
@@ -49,5 +48,5 @@ for name, result in portfolios.items():
     rows.append(row)
 
 allocations_df = pd.DataFrame(rows).set_index("portfolio")
-allocations_df.to_csv(OUTPUT_DIR / "portfolio_allocations.csv")
+allocations_df.to_csv(OUTPUT_DIR / "portfolio_allocations_new.csv")
 print(allocations_df.to_string())
