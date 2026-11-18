@@ -1,8 +1,8 @@
 import numpy as np
 from load_data import sections, SECTORS, OUTPUT_DIR
+from portfolio_utils import monthly_vw_returns
 
 # data sources
-monthly_vw_returns = sections["Average Value Weighted Returns -- Monthly"][SECTORS].copy()
 monthly_ew_returns = sections["Average Equal Weighted Returns -- Monthly"][SECTORS].copy()
 annual_vw_returns  = sections["Average Value Weighted Returns -- Annual"][SECTORS].copy()
 annual_ew_returns  = sections["Average Equal Weighted Returns -- Annual"][SECTORS].copy()
