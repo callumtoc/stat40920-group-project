@@ -1,8 +1,5 @@
-import numpy as np
-from load_data import sections, SECTORS, OUTPUT_DIR
-
-# Source data
-monthly_vw_returns = sections["Average Value Weighted Returns -- Monthly"][SECTORS].copy()
+from load_data import OUTPUT_DIR
+from portfolio_utils import monthly_vw_returns
 
 correlation_matrix = monthly_vw_returns.corr()
 covariance_matrix = monthly_vw_returns.cov()
