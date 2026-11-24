@@ -1,8 +1,7 @@
 import numpy as np
-from load_data import sections, SECTORS
+from load_data import sections, SECTORS, ff_factors
 
 # --- settings (one place only) ---
-RISK_FREE_RATE = 0.0      # annual %, placeholder - to be replaced in a later PR
 ALLOW_SHORT = True        # True: h unrestricted in sign (section 6.4); False: h >= 0 (section 6.5)
 
 # --- data ---
@@ -10,6 +9,13 @@ monthly_vw_returns = sections["Average Value Weighted Returns -- Monthly"][SECTO
 monthly_mean_returns = monthly_vw_returns.mean().values   # monthly %
 monthly_cov_matrix   = monthly_vw_returns.cov().values    # monthly %^2
 n = len(SECTORS)
+
+# --- risk-free rate e ---
+# average one-month T-bill return over the SAME months as our sector data, annualised x12
+# (x12 matches how portfolio_stats annualises returns)
+rf_monthly = ff_factors["RF"].reindex(monthly_vw_returns.index)
+assert rf_monthly.notna().all(), "RF missing for some months - check both raw files cover the same dates"
+RISK_FREE_RATE = rf_monthly.mean() * 12   # annual %
 
 # --- optimiser settings ---
 BOUNDS   = None if ALLOW_SHORT else tuple((0, 1) for _ in range(n))
@@ -21,5 +27,6 @@ def portfolio_stats(w):
     return w @ monthly_mean_returns * 12, np.sqrt(w @ monthly_cov_matrix @ w * 12)
 
 def sharpe(w, e=RISK_FREE_RATE):
+    """Sharpe ratio (mu(P) - e) / sigma(P), annualised."""
     ret, vol = portfolio_stats(w)
     return (ret - e) / vol

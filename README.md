@@ -55,6 +55,7 @@ All data comes from the [Kenneth R. French Data Library](http://mba.tuck.dartmou
 | File | Description |
 |---|---|
 | [`data/raw/Siccodes49.txt`](data/raw/Siccodes49.txt) | Definitions of the 49 industries (SIC codes in each) |
+| [`data/raw/F-F_Research_Data_Factors.csv`](data/raw/F-F_Research_Data_Factors.csv) | Fama/French 3 Factors, monthly: one-month T-bill return (`RF`) and market return (`Mkt-RF`) |
 
 ## Repository structure
 

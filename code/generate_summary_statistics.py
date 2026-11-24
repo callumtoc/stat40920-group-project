@@ -1,6 +1,6 @@
 import numpy as np
 from load_data import sections, SECTORS, OUTPUT_DIR
-from portfolio_utils import monthly_vw_returns
+from portfolio_utils import monthly_vw_returns, RISK_FREE_RATE
 
 # data sources
 monthly_ew_returns = sections["Average Equal Weighted Returns -- Monthly"][SECTORS].copy()
@@ -17,7 +17,7 @@ def summary_stats(df, freq):
     stats.columns = ["Mean return (%)", "Std dev (%)", "Min (%)", "Max (%)"]
     stats["Annualised mean (%)"] = stats["Mean return (%)"] * periods
     stats["Annualised vol (%)"]  = stats["Std dev (%)"] * np.sqrt(periods)
-    stats["Sharpe (ann., rf=0)"] = stats["Annualised mean (%)"] / stats["Annualised vol (%)"]
+    stats["Sharpe (ann.)"] = (stats["Annualised mean (%)"] - RISK_FREE_RATE) / stats["Annualised vol (%)"]
     stats["Observations"]        = df.count().astype(int)
 
     return stats.round(4)
