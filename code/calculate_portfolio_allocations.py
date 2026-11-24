@@ -3,7 +3,7 @@ from scipy.optimize import minimize
 from load_data import SECTORS, OUTPUT_DIR
 # BOUNDS, CONS_SUM (h^T1 = 1), W0 (equal weights) and sharpe (which uses RISK_FREE_RATE) are set in
 # portfolio_utils.py, which builds monthly_mean_returns and monthly_cov_matrix from monthly_vw_returns
-from portfolio_utils import BOUNDS, CONS_SUM, W0, portfolio_stats, sharpe
+from portfolio_utils import BOUNDS, CONS_SUM, W0, portfolio_stats, sharpe, RISK_FREE_RATE
 
 def min_volatility(weights):
     return portfolio_stats(weights)[1]
@@ -27,10 +27,11 @@ portfolios["medium_risk"] = minimize(
 rows = []
 for name, result in portfolios.items():
     ret, vol = portfolio_stats(result.x)
-    row = {"portfolio": name, "annualised_return": ret, "annualised_vol": vol, "sharpe": sharpe(result.x)}
+    row = {"portfolio": name, "annualised_return": ret, "annualised_vol": vol, "sharpe": sharpe(result.x), "risk_free_rate": RISK_FREE_RATE}
     row.update({s: w for s, w in zip(SECTORS, result.x)})
     rows.append(row)
 
 allocations_df = pd.DataFrame(rows).set_index("portfolio")
 allocations_df.to_csv(OUTPUT_DIR / "portfolio_allocations.csv")
 print(allocations_df.to_string())
+print(f"\nRisk-free rate used (annual %): {RISK_FREE_RATE:.4f}")
