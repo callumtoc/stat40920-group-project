@@ -13,6 +13,7 @@ scripts = [
     "calculate_efficient_frontier.py",
     "plot_efficient_frontier.py",
     "run_forecast.py",
+    "export_to_excel.py",   # last: collects every csv and chart above into output/results.xlsx
 ]
 
 # non-interactive matplotlib backend, so plt.show() in the plot script doesn't block the run
