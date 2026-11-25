@@ -4,6 +4,17 @@ from load_data import sections, SECTORS, ff_factors
 # --- settings (one place only) ---
 ALLOW_SHORT = True        # True: h unrestricted in sign (section 6.4); False: h >= 0 (section 6.5)
 
+# forecast and rebalancing (simulation.py, run_forecast.py, notebooks/forecast_and_rebalancing.ipynb)
+SEED = 40920                # same seed as Nathan's run, so results are repeatable
+N_SIMULATIONS = 10_000      # K: number of simulated five-year paths
+HORIZON_MONTHS = 60         # T
+INITIAL_FUND = 1_000_000    # F0 ($)
+REBALANCE_MONTHS = {"A": 12, "B": 12, "C": 12}   # months between resets for the forecast; None = never; group to finalise per portfolio
+REBALANCE_FREQUENCIES = {"Monthly": 1, "Quarterly": 3, "Annual": 12, "Never": None}   # compared in the backtest
+BACKTEST_START, BACKTEST_END = "2021-01", "2025-12"
+PORTFOLIO_KEYS = {"A": "low_risk", "B": "medium_risk", "C": "high_risk"}
+PORTFOLIO_LABELS = {"A": "Portfolio A (Low Risk)", "B": "Portfolio B (Medium Risk)", "C": "Portfolio C (High Risk)"}
+
 # --- data ---
 monthly_vw_returns = sections["Average Value Weighted Returns -- Monthly"][SECTORS].copy()
 monthly_mean_returns = monthly_vw_returns.mean().values   # monthly %
