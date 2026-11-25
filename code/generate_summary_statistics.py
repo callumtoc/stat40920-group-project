@@ -1,11 +1,11 @@
 import numpy as np
 from load_data import sections, SECTORS, OUTPUT_DIR
-from portfolio_utils import monthly_vw_returns, RISK_FREE_RATE
+from portfolio_utils import monthly_vw_returns, RISK_FREE_RATE, ESTIMATION_START, ESTIMATION_END
 
-# data sources
-monthly_ew_returns = sections["Average Equal Weighted Returns -- Monthly"][SECTORS].copy()
-annual_vw_returns  = sections["Average Value Weighted Returns -- Annual"][SECTORS].copy()
-annual_ew_returns  = sections["Average Equal Weighted Returns -- Annual"][SECTORS].copy()
+# data sources, cut to the same estimation window as monthly_vw_returns
+monthly_ew_returns = sections["Average Equal Weighted Returns -- Monthly"][SECTORS].loc[ESTIMATION_START:ESTIMATION_END].copy()
+annual_vw_returns  = sections["Average Value Weighted Returns -- Annual"][SECTORS].loc[ESTIMATION_START[:4]:ESTIMATION_END[:4]].copy()
+annual_ew_returns  = sections["Average Equal Weighted Returns -- Annual"][SECTORS].loc[ESTIMATION_START[:4]:ESTIMATION_END[:4]].copy()
 
 def summary_stats(df, freq):
     '''
