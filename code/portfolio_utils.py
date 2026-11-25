@@ -16,7 +16,7 @@ SEED = 40920                # same seed as Nathan's run, so results are repeatab
 N_SIMULATIONS = 10_000      # K: number of simulated five-year paths
 HORIZON_MONTHS = 60         # T
 INITIAL_FUND = 1_000_000    # F0 ($)
-REBALANCE_MONTHS = {"A": 12, "B": 12, "C": 12}   # months between resets for the forecast; None = never; group to finalise per portfolio
+REBALANCE_MONTHS = {"A": 12, "B": 3, "C": 3}   # months between resets for the forecast; chosen with rebalancing_decision.py
 REBALANCE_FREQUENCIES = {"Monthly": 1, "Quarterly": 3, "Annual": 12, "Never": None}   # compared in the backtest
 BACKTEST_START, BACKTEST_END = "2021-01", "2025-12"
 PORTFOLIO_KEYS = {"A": "low_risk", "B": "medium_risk", "C": "high_risk"}
