@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from load_data import OUTPUT_DIR
-from portfolio_utils import monthly_vw_returns, ALLOW_SHORT
+from portfolio_utils import monthly_vw_returns, WEIGHT_LIMITS, ESTIMATION_START, ESTIMATION_END
 
 frontier_df = pd.read_csv(OUTPUT_DIR / "efficient_frontier.csv")
 allocations_df = pd.read_csv(OUTPUT_DIR / "portfolio_allocations.csv", index_col="portfolio")
@@ -12,10 +12,14 @@ sector_vols = monthly_vw_returns.std() * (12 ** 0.5)
 
 fig, ax = plt.subplots(figsize=(10, 6))
 
-ax.plot(frontier_df["annualised_vol"], frontier_df["annualised_return"], color="steelblue", lw=2, label="Efficient frontier")
-
 colors = {"low_risk": "green", "medium_risk": "orange", "high_risk": "red"}
 labels = {"low_risk": "Low risk", "medium_risk": "Medium risk", "high_risk": "High risk"}
+
+# one frontier per constraint set, in the same colour as the portfolio built under it
+for portfolio, (lower, upper) in WEIGHT_LIMITS.items():
+    curve = frontier_df[frontier_df["constraint_set"] == portfolio]
+    ax.plot(curve["annualised_vol"], curve["annualised_return"], color=colors[portfolio], lw=1.5, alpha=0.7,
+            label=f"Frontier, weights {lower:.0%} to {upper:.0%}")
 for name, row in allocations_df.iterrows():
     ax.scatter(row["annualised_vol"], row["annualised_return"], color=colors[name], s=100, zorder=5, label=labels[name])
 
@@ -31,10 +35,10 @@ for sector in sector_vols[~on_chart].index:
                 textcoords="offset points", xytext=(-8, -3), ha="right", fontsize=7, color="grey")
 ax.set_xlim(right=VOL_AXIS_MAX)
 
-short_note = "(short selling allowed)" if ALLOW_SHORT else "(long-only)"
+
 ax.set_xlabel("Annualised volatility (%)")
 ax.set_ylabel("Annualised return (%)")
-ax.set_title(f"Efficient Frontier — 10 Sector Portfolios {short_note}")
+ax.set_title(f"Efficient frontiers under each portfolio's weight limits ({ESTIMATION_START[:4]}–{ESTIMATION_END[:4]})")
 ax.legend()
 ax.grid(True, alpha=0.3)
 
