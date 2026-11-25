@@ -78,6 +78,7 @@ stat40920-group-project/
 │   ├── plot_efficient_frontier.py         # efficient frontier chart
 │   ├── simulation.py                      # fund recursion, backtest metrics, Monte Carlo and bootstrap returns, lognormal check
 │   ├── run_forecast.py                    # rebalancing backtest and five-year Monte Carlo forecast for all three portfolios
+│   ├── rebalancing_decision.py            # picks each portfolio's rebalancing frequency from the forecast outputs
 │   └── run_all.py                         # runs everything in dependency order
 ├── data/
 │   ├── raw/                               # downloaded source files, unaltered
@@ -112,7 +113,7 @@ All settings live in [`code/portfolio_utils.py`](code/portfolio_utils.py) and no
 | `N_SIMULATIONS` | `10_000` | Number of simulated five-year paths (K). |
 | `HORIZON_MONTHS` | `60` | Forecast horizon in months (T). |
 | `INITIAL_FUND` | `1_000_000` | Initial investment in $ (F0). |
-| `REBALANCE_MONTHS` | `{"A": 12, "B": 12, "C": 12}` | Months between resets to target weights in each portfolio's forecast; `None` = never. Annual for now: the group will choose each portfolio's frequency from the backtest table. |
+| `REBALANCE_MONTHS` | `{"A": 12, "B": 3, "C": 3}` | Months between resets to target weights in each portfolio's forecast. Chosen with `rebalancing_decision.py`: switch from annual only if a more frequent option gives more than 1% higher backtest value with no worse drawdown. |
 | `REBALANCE_FREQUENCIES` | `{"Monthly": 1, "Quarterly": 3, "Annual": 12, "Never": None}` | The frequencies compared in the backtest and the in-simulation comparison. |
 | `BACKTEST_START`, `BACKTEST_END` | `"2021-01"`, `"2025-12"` | Historical window for the rebalancing backtest (60 months). |
 | `PORTFOLIO_KEYS` | `{"A": "low_risk", "B": "medium_risk", "C": "high_risk"}` | Maps portfolio letters to the rows of `output/portfolio_allocations.csv`. |
