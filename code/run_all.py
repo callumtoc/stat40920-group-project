@@ -13,6 +13,7 @@ scripts = [
     "calculate_efficient_frontier.py",
     "plot_efficient_frontier.py",
     "run_forecast.py",
+    "run_historical.py",
 ]
 
 # non-interactive matplotlib backend, so plt.show() in the plot script doesn't block the run
