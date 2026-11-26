@@ -79,6 +79,7 @@ stat40920-group-project/
 │   ├── simulation.py                      # fund recursion, backtest metrics, Monte Carlo and bootstrap returns, lognormal check
 │   ├── run_forecast.py                    # rebalancing backtest and five-year Monte Carlo forecast for all three portfolios
 │   ├── rebalancing_decision.py            # picks each portfolio's rebalancing frequency from the forecast outputs
+│   ├── export_to_excel.py                 # collects every output table and chart into one formatted workbook, output/results.xlsx
 │   └── run_all.py                         # runs everything in dependency order
 ├── data/
 │   ├── raw/                               # downloaded source files, unaltered
@@ -96,7 +97,9 @@ pip install -r requirements.txt
 python code/run_all.py
 ```
 
-`python code/run_all.py` produces all outputs, including the forecast. It runs the analysis scripts in dependency order (summary statistics, correlation/covariance, portfolio allocations, efficient frontier, chart, forecast). Any failure stops the run, so outputs in `output/` can't go stale.
+`python code/run_all.py` produces all outputs, including the forecast. It runs the analysis scripts in dependency order (summary statistics, correlation/covariance, portfolio allocations, efficient frontier, chart, forecast, Excel export). Any failure stops the run, so outputs in `output/` can't go stale.
+
+The last step writes `output/results.xlsx`: every output table, already formatted (%, $, headers), plus the charts, one tab each. Copy tabs from it into the group workbook instead of pasting CSVs by hand. Close `results.xlsx` in Excel before re-running, otherwise the file can't be overwritten.
 
 ~~To see the forecasting method explained step by step, open [`notebooks/forecast_and_rebalancing.ipynb`](notebooks/forecast_and_rebalancing.ipynb) and run it top to bottom. It uses the same code (`simulation.py`) and settings as `run_forecast.py`, so it gives the same numbers.~~
 
