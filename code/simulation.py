@@ -56,14 +56,21 @@ def bootstrap_returns(historical_returns, n_simulations, horizon_months, seed):
     return historical_returns[month_index]
 
 
-def summarise(final_values, initial_fund, years=5):
-    """Mean, median, percentiles, P(loss) with its standard error, and median growth p.a. of F_T."""
+def summarise(final_values, initial_fund, years=5, alpha=0.95):
+    """Mean, median, percentiles, P(loss) with its standard error, median growth p.a., and Ch 5 
+    risk measures of F_T: VaR and Expected Shortfall (ES) at confidence level alpha, and lower semi-variance (LSV)."""
     p_loss = (final_values < initial_fund).mean()
+    cutoff = np.percentile(final_values, 100 * (1 - alpha))                  # F^{-1}(1 - alpha): 5th percentile
+    var_alpha = initial_fund - cutoff                                         # VaR_alpha = W0 - F^{-1}(1 - alpha)
+    es_alpha = (initial_fund - final_values[final_values <= cutoff]).mean()   # ES_alpha: average loss in worst 5%
+    lsv = np.mean(np.maximum(final_values.mean() - final_values, 0) ** 2)     # LSV = E[max(mu - W, 0)^2]
     return {"Mean": final_values.mean(), "Median": np.median(final_values),
             "5th pct": np.percentile(final_values, 5), "10th pct": np.percentile(final_values, 10),
             "90th pct": np.percentile(final_values, 90), "95th pct": np.percentile(final_values, 95),
             "P(loss)": p_loss, "SE of P(loss)": np.sqrt(p_loss * (1 - p_loss) / len(final_values)),
-            "Median growth p.a.": (np.median(final_values) / initial_fund) ** (1 / years) - 1}
+            "Median growth p.a.": (np.median(final_values) / initial_fund) ** (1 / years) - 1, 
+            f"VaR {alpha:.0%}": var_alpha, f"ES {alpha:.0%}": es_alpha, 
+            "Lower semi-variance": lsv, "Lower semi-deviation": np.sqrt(lsv)}
 
 
 def lognormal_approx(weights, monthly_mean_returns_decimal, monthly_cov_matrix_decimal, initial_fund, n_months):

@@ -19,6 +19,15 @@ INITIAL_FUND = 1_000_000    # F0 ($)
 REBALANCE_MONTHS = {"A": 12, "B": 3, "C": 3}   # months between resets for the forecast; chosen with rebalancing_decision.py
 REBALANCE_FREQUENCIES = {"Monthly": 1, "Quarterly": 3, "Annual": 12, "Never": None}   # compared in the backtest
 BACKTEST_START, BACKTEST_END = "2021-01", "2025-12"
+
+# historical performance vs the market (run_historical.py): 20 years including 2008 and COVID
+HISTORY_START, HISTORY_END = "2006-01", "2025-12"
+CRISIS_PERIODS = {"Global financial crisis": ("2007-11", "2009-02"),
+                  "COVID crash": ("2020-02", "2020-03"),
+                  "2022 rate rises": ("2022-01", "2022-09")}
+# out-of-sample check: rebuild the portfolios with the same rules using only data up to this month (Dec 2005)
+# then measure them over the history period they have never seen (2006 onwards)
+OUT_OF_SAMPLE_END = "2005-12"                  
 PORTFOLIO_KEYS = {"A": "low_risk", "B": "medium_risk", "C": "high_risk"}
 PORTFOLIO_LABELS = {"A": "Portfolio A (Low Risk)", "B": "Portfolio B (Medium Risk)", "C": "Portfolio C (High Risk)"}
 
